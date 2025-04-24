@@ -1,0 +1,39 @@
+{
+  "active": false,
+  "connections": {},
+  "createdAt": "2025-04-23T00:13:49.080Z",
+  "id": "nWUGnxWayvfUvdsE",
+  "meta": null,
+  "name": "RSSFeed",
+  "nodes": [
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        },
+        "feedUrl": "https://blog.n8n.io/series-b/\t"
+      },
+      "type": "n8n-nodes-base.rssFeedReadTrigger",
+      "typeVersion": 1,
+      "position": [
+        -420,
+        -200
+      ],
+      "id": "b3aec901-4e2b-46c6-9a41-040793b58014",
+      "name": "RSS Feed Trigger"
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2025-04-24T00:40:03.000Z",
+  "versionId": "97a55255-ec99-4aaf-b8ee-3da928c6ebc6"
+}
