@@ -1,0 +1,278 @@
+{
+  "active": false,
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "HTTP Request1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request1": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields1": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "DeepSeek Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Telegram",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-04-24T00:40:48.584Z",
+  "id": "2bvcM7PuYVQRIFlt",
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "每日AI新闻助手",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "daysInterval": "={{ 1 }}",
+              "triggerAtHour": 9
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -660,
+        60
+      ],
+      "id": "7472422d-01ff-4879-adf0-f0092f48a015",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "url": "https://gnews.io/api/v4/search?q=AI&apikey=fd185c5e37474bb0f7bdf9cc0dc85beb",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -320,
+        -40
+      ],
+      "id": "392f6b37-6732-424f-883b-edced85761d6",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "url": "https://newsapi.org/v2/everything?q=AI&language=en&sortBy=publishedAt&apiKey=b1e3082beef14c5cb502127be3776236",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -320,
+        160
+      ],
+      "id": "eee290ed-161e-4bfc-a473-076fbe610224",
+      "name": "HTTP Request1"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "a49b280b-86b6-4797-a314-7be86bae6b19",
+              "name": "articles",
+              "value": "={{ $json.articles }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -60,
+        -40
+      ],
+      "id": "41736cc3-66ce-4ec4-977a-73187469550c",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "d08c324b-28bd-47ad-9f43-7ed0a430d651",
+              "name": "articles",
+              "value": "={{ $json.articles }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -40,
+        160
+      ],
+      "id": "35a32a9b-2857-4553-9f3b-08a133c76b99",
+      "name": "Edit Fields1"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.1,
+      "position": [
+        220,
+        60
+      ],
+      "id": "096c476a-1947-4bea-9867-a8cb0226fc02",
+      "name": "Merge"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=你是一个AI新闻助手，你的任务是\n1.只提取{{ $json.articles }}中关于AI技术进展和应用的15条新闻，其它的不要。\n2.翻译为标准的中文，注意，有些技术词汇如果大家都用英文可以不翻译为中文。\n3.确保包含每个新闻的url，\n4.确保在输出的第一句提交今天的日期，例如：早上好，今天是2025年1月1日的AI新闻",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.9,
+      "position": [
+        440,
+        60
+      ],
+      "id": "36b656f2-3c60-4fff-a198-d6d9448348f5",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatDeepSeek",
+      "typeVersion": 1,
+      "position": [
+        380,
+        280
+      ],
+      "id": "63e0baa8-71d7-4a04-939f-6997fd453548",
+      "name": "DeepSeek Chat Model",
+      "credentials": {
+        "deepSeekApi": {
+          "id": "shx79MAbw88E97a0",
+          "name": "DeepSeek account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "6119461390",
+        "text": "={{ $json.output }}",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        800,
+        60
+      ],
+      "id": "aad89f55-fefd-4498-aa3b-0d9c45358410",
+      "name": "Telegram",
+      "webhookId": "652e4860-56d9-4f07-ba62-7ae3ca2b6184",
+      "credentials": {
+        "telegramApi": {
+          "id": "Ibf8PWIISEUksoIg",
+          "name": "Telegram account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1",
+    "timezone": "Asia/Shanghai",
+    "callerPolicy": "workflowsFromSameOwner"
+  },
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2025-04-24T04:25:01.000Z",
+  "versionId": "032fdbed-4437-4083-ae94-f248dcf1729c"
+}
