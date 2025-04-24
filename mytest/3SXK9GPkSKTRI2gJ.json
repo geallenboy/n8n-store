@@ -1,0 +1,457 @@
+{
+  "active": false,
+  "connections": {
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Calendar": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Calendar1": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets1": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets2": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-03-25T14:06:38.837Z",
+  "id": "3SXK9GPkSKTRI2gJ",
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "test2",
+  "nodes": [
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        -400,
+        -60
+      ],
+      "id": "be7cd245-10fd-479b-9a18-6ff6d7f257a7",
+      "name": "When chat message received",
+      "webhookId": "1097f187-c4d7-4246-b6ec-dcff390c9283"
+    },
+    {
+      "parameters": {
+        "options": {
+          "systemMessage": "=You are a helpful assistant\n\n当前日期是：{{ $now }}\n\n## AGENT 指令\n- 使用 Google Sheets 的“创建事件”工具来创建一个事件。\n- 使用 Google Sheets 的“搜索事件”工具来搜索一个事件。\n- 使用 Google Sheets 的“更新事件”工具来更新一个事件。  \n**在更新之前，务必先使用搜索工具找到正确的记录。**\n\n## 规则\n- 所有日期必须采用以下格式：03/26/2025。  \n换句话说，必须是“月/日/年”（MM/DD/YYYY）格式。\n- 在更新 Google 表格之前，请务必先使用 Google Sheets 的搜索工具查找记录。\n\n"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.8,
+      "position": [
+        -60,
+        -100
+      ],
+      "id": "341c960e-b0ac-4d0b-88fe-1ea9fbc004bd",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "=gpt-4o-mini",
+          "mode": "id"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        -480,
+        220
+      ],
+      "id": "be3372e1-5335-4798-b61d-9a5f99922864",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "1rvkubxCVZvcVPTf",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        -300,
+        220
+      ],
+      "id": "7ac1e33d-7568-4cd2-bd7e-8ee5f44107b2",
+      "name": "Simple Memory"
+    },
+    {
+      "parameters": {
+        "calendar": {
+          "__rl": true,
+          "value": "gejialun88@gmail.com",
+          "mode": "list",
+          "cachedResultName": "gejialun88@gmail.com"
+        },
+        "start": "={{ $fromAI(\"startTime\",\"This is the start time of the event\") }}",
+        "end": "={{ $fromAI(\"endTime\",\"This is the end time of the event\") }}",
+        "additionalFields": {
+          "summary": "={{ $fromAI(\"summary\",\"This is the summaryof the event\") }}"
+        }
+      },
+      "type": "n8n-nodes-base.googleCalendarTool",
+      "typeVersion": 1.3,
+      "position": [
+        -120,
+        240
+      ],
+      "id": "f1ac2525-6cbb-4ab9-8ad3-c84180590f19",
+      "name": "Google Calendar",
+      "credentials": {
+        "googleCalendarOAuth2Api": {
+          "id": "16fA5mih7Lv59n2m",
+          "name": "Google Calendar account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "calendar": {
+          "__rl": true,
+          "value": "gejialun88@gmail.com",
+          "mode": "list",
+          "cachedResultName": "gejialun88@gmail.com"
+        },
+        "timeMin": "={{ $fromAI(\"afterDate\",\"This is the time user wants to search for events pass\") }}",
+        "timeMax": "={{ $fromAI(\"beforeDate\",\"This is the time user wants to search for events before\") }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleCalendarTool",
+      "typeVersion": 1.3,
+      "position": [
+        60,
+        240
+      ],
+      "id": "d654b3f3-8641-411b-8221-13d936f7f271",
+      "name": "Google Calendar1",
+      "credentials": {
+        "googleCalendarOAuth2Api": {
+          "id": "16fA5mih7Lv59n2m",
+          "name": "Google Calendar account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1vBVP_i018EjDN9E-iNxDLyNl567k2_8MfLjOhRrOQ0Y",
+          "mode": "list",
+          "cachedResultName": "n8ntest2",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1vBVP_i018EjDN9E-iNxDLyNl567k2_8MfLjOhRrOQ0Y/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "工作表1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1vBVP_i018EjDN9E-iNxDLyNl567k2_8MfLjOhRrOQ0Y/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Priority": "={{ $fromAI(\"taskPriority\",\"这是任务的优先级,请从以下列表中选择优先级:低,中,高\") }}",
+            "Description": "={{ $fromAI(\"taskDescription\",\"这是任务的描述\") }}",
+            "TaskName": "={{ $fromAI(\"taskName\",\"这是任务名称\") }}",
+            "DueDate ": "={{ $fromAI(\"taskDueDate\",\"这是任务的日期\") }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "TaskName",
+              "displayName": "TaskName",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Description",
+              "displayName": "Description",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "DueDate ",
+              "displayName": "DueDate ",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Priority",
+              "displayName": "Priority",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTool",
+      "typeVersion": 4.5,
+      "position": [
+        260,
+        240
+      ],
+      "id": "7e222fa9-251b-4a80-800c-49f7af165c82",
+      "name": "Google Sheets",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "ZUshZqZwcVJVtSfD",
+          "name": "Google Sheets"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1vBVP_i018EjDN9E-iNxDLyNl567k2_8MfLjOhRrOQ0Y",
+          "mode": "list",
+          "cachedResultName": "n8ntest2",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1vBVP_i018EjDN9E-iNxDLyNl567k2_8MfLjOhRrOQ0Y/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "工作表1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1vBVP_i018EjDN9E-iNxDLyNl567k2_8MfLjOhRrOQ0Y/edit#gid=0"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "DueDate ",
+              "lookupValue": "={{ $fromAI(\"dueDate\",\"任务日期\") }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTool",
+      "typeVersion": 4.5,
+      "position": [
+        460,
+        200
+      ],
+      "id": "4f06b1fc-1734-4101-bf79-c7f05acdf197",
+      "name": "Google Sheets1",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "ZUshZqZwcVJVtSfD",
+          "name": "Google Sheets"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "1vBVP_i018EjDN9E-iNxDLyNl567k2_8MfLjOhRrOQ0Y",
+          "mode": "list",
+          "cachedResultName": "n8ntest2",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1vBVP_i018EjDN9E-iNxDLyNl567k2_8MfLjOhRrOQ0Y/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "工作表1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1vBVP_i018EjDN9E-iNxDLyNl567k2_8MfLjOhRrOQ0Y/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Description": "={{ $fromAI(\"taskDescription\",\"这是任务的描述\") }}",
+            "Priority": "={{ $fromAI(\"taskPriority\",\"这是任务的优先级,请从以下列表中选择优先级:低,中,高\") }}",
+            "TaskName": "={{ $fromAI(\"taskName\",\"这是任务名称\") }}",
+            "DueDate ": "={{ $fromAI(\"taskDueDate\",\"这是任务的日期\") }}"
+          },
+          "matchingColumns": [
+            "DueDate "
+          ],
+          "schema": [
+            {
+              "id": "TaskName",
+              "displayName": "TaskName",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Description",
+              "displayName": "Description",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "DueDate ",
+              "displayName": "DueDate ",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Priority",
+              "displayName": "Priority",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTool",
+      "typeVersion": 4.5,
+      "position": [
+        540,
+        80
+      ],
+      "id": "e7bafa64-9b4c-407c-9a85-c781db6b7001",
+      "name": "Google Sheets2",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "ZUshZqZwcVJVtSfD",
+          "name": "Google Sheets"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2025-03-26T13:31:14.000Z",
+  "versionId": "ba7bdb07-ef19-48ae-9e3e-c043f9aaee91"
+}
