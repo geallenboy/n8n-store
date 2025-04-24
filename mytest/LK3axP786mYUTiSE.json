@@ -1,0 +1,81 @@
+{
+  "active": false,
+  "connections": {
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-04-16T14:09:16.535Z",
+  "id": "LK3axP786mYUTiSE",
+  "meta": null,
+  "name": "mcp",
+  "nodes": [
+    {
+      "parameters": {
+        "options": {
+          "allowFileUploads": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        -500,
+        -120
+      ],
+      "id": "3c760767-1d5c-4cc8-a980-cf5e3b74fcf9",
+      "name": "When chat message received",
+      "webhookId": "b8e3ee31-ea18-4e83-b39d-481225e13266"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "29ced2dc-68a8-421e-9132-dda8b2c07042",
+              "leftValue": "",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -280,
+        -120
+      ],
+      "id": "e042bc64-c3f4-4ee2-8fbf-4fd48f135929",
+      "name": "If"
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2025-04-16T14:33:12.000Z",
+  "versionId": "28b69c6b-4e43-4aec-97f7-35ef76919113"
+}
