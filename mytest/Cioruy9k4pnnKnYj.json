@@ -1,0 +1,18 @@
+{
+  "active": false,
+  "connections": {},
+  "createdAt": "2025-03-27T02:29:08.242Z",
+  "id": "Cioruy9k4pnnKnYj",
+  "meta": null,
+  "name": "20250327-1",
+  "nodes": [],
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2025-03-27T02:29:08.242Z",
+  "versionId": "23492554-074c-424f-b299-f621d0e93bd8"
+}
